@@ -15,6 +15,7 @@ See `fib.pxbf` or `main.pxbf` for examples.
 |loopdo(xvar) | Start of a while loop while value in 'xvar' is > 0                  |
 |loopdone()   | End of a while loop                                                 |
 | ...         | To be continued. For other macros see the example                   |
+
 When you're done editing `main.pxbf` just run
 ```bash
 make
