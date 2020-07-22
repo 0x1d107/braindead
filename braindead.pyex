@@ -1,0 +1,53 @@
+$py(
+variables={}
+while_context_var=[]
+new_var_index=0
+current_pos=0
+def r(n,x="+"):
+    return x * int(n)
+def alloc(*vars):
+    global variables,new_var_index
+    for x in vars:
+        variables[x]=new_var_index
+        new_var_index+=1
+    return ''
+def mv(x):
+    global current_pos,variables
+    delta = variables[x] - current_pos
+    current_pos = variables[x]
+    return ">"*delta if delta >= 0 else "<" * (-delta)
+def char(x):
+    return str(ord(x))
+def move(from_v,*to_vs):
+    return mv(from_v)+'[-'+''.join(mv(v)+"+" for v in to_vs)+mv(from_v)+']'
+def loopdo(xvar):
+    global while_context_var
+    while_context_var.append(xvar)
+    return mv(while_context_var[-1])+'['
+def loopdone():
+    global while_context_var
+    return mv(while_context_var.pop())+']'
+
+)\
+$extend(alloc,mv,r,char,move,loopdo,loopdone)\
+$macro(set,v,x)
+$mv(v)[-]$r(x)
+$endmacro
+$macro(add,v,x)
+$mv(v)$r(x)
+$endmacro
+$macro(sub,v,x)
+$mv(v)$r(x,'-')
+$endmacro
+$macro(inc,x)
+$mv(x)+
+$endmacro
+$macro(dec,x)
+$mv(x)-
+$endmacro
+$macro(read,x)
+$mv(x),
+$endmacro
+$macro(write,x)
+$mv(x).
+$endmacro
