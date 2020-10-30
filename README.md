@@ -8,7 +8,7 @@ python3 -m pip install -r requirements.txt
 See `fib.pxbf` or `main.pxbf` for examples. 
 | Macro       | Description                                                         |
 | ---         | ---                                                                 |
-|r(n,x)       | Repeats character x (by deafult '+') n times                        |
+|r(n,x)       | Repeats character x (by default '+') n times                        |
 |alloc(v)     | Declares named cell 'v'                                             |
 |mv(x)        | Move to the named cell 'x'                                          |
 |move(from,to)| Move value in named cell 'from' to named cell 'to' destructively    |
