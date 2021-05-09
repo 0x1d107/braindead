@@ -1,0 +1,13 @@
+#!/bin/env python
+import re,argparse
+from pyexpander.lib import expandToStr
+
+parser = argparse.ArgumentParser(description="PXBF Brainfuck expander")
+parser.add_argument('file',help="Input file to expand")
+
+args = parser.parse_args()
+non_bf_chars = re.compile(r'[^+\-.,\[\]<>]')
+with open(args.file,'r') as infile:
+    with open(args.file.replace(".pxbf",".bf"),'w') as outfile:
+        outfile.write(non_bf_chars.sub('', expandToStr(infile.read(),filename=args.file)[0]))
+

@@ -1,4 +1,4 @@
-all: main.b
+all: main.bf
 
-%.b: %.pxbf braindead.pyex
-	expander.py -f $< |tr -dC '[\[\]+\-.,><]' > $@
+%.bf: %.pxbf braindead.pyex
+	./pxbf $<
