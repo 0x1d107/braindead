@@ -1,0 +1,44 @@
+$include('braindead.pyex')
+$py(
+stack_head = None
+stack_cnt = None
+def stack_alloc(head_cnt,head_ptr):
+    global stopalloc,stack_head,stack_cnt
+    if stack_head:
+        raise Exception("Can't allocate stack twice")
+    alloc(head_cnt,head_ptr)
+    stopalloc = True
+    stack_head = head_ptr
+    stack_cnt = head_cnt
+
+)\
+$extend(stack_alloc)$# [cnt] [head] [cnt_cpy] [cnt_ret] [T = 0] [st0] [st1] ...
+$macro(stack_swp) 
+$mv(stack_head)>>>[-]<<< $# clear T cell (ensuring that temporary cell is always 0)
+$mv(stack_cnt)[-$mv(stack_head)>+>+>+<<<$mv(stack_cnt)] $# copy cnt to cnt_cpy and cnt_ret and T
+$mv(stack_head)>>>[-<<<$mv(stack_cnt)+$mv(stack_head)>>>] $# retrieve the value of cnt from T 
+<< $# at cnt_cpy
+$# moving forward by cnt_cpy
+[
+    >[->+<] $# cnt_ret to T
+    <[->+<] $# cnt_cpy to cnt_ret
+    <[->+<] $# head to cnt_cpy
+    >>>>[-<<<<+>>>>] $# st0 to head
+    <<- $# decrementing cnt_cpy
+]
+$# swap the head
+< [->>>+<<<] 
+>>>>[-<<<<+>>>>]
+<[->+<]
+< $# at cnt_ret
+[$# returning back
+    - $# decrement cnt_ret 
+    <[-]>
+    [-<+>] $# cnt_ret to cnt_cpy
+    <<< $# cnt
+    [->>>>+<<<<] $# cnt to t
+    >[-<+>] $# head to cnt
+    >
+]
+<<
+$endmacro
