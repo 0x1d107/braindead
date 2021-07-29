@@ -3,10 +3,13 @@ variables={}
 while_context_var=[]
 new_var_index=0
 current_pos=0
+stopalloc=False
 def r(n,x="+"):
     return x * int(n)
 def alloc(*vars):
     global variables,new_var_index
+    if stopalloc:
+        raise Exception('No allocations are allowed!')
     for x in vars:
         variables[x]=new_var_index
         new_var_index+=1
